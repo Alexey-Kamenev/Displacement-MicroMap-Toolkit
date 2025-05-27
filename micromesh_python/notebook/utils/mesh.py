@@ -5,7 +5,7 @@ from typing import Tuple
 
 import micromesh_python as pymm
 
-from nvMicromesh import DisplacementMicromapAPI
+# from nvMicromesh import DisplacementMicromapAPI
 
 def print_mesh_stats(mesh : pymm.Mesh):
     print(f"triangleVertices: {mesh.triangleVertices.shape[0]}")

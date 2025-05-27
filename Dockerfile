@@ -75,9 +75,22 @@ RUN git clone https://github.com/Alexey-Kamenev/Displacement-MicroMap-Toolkit.gi
     cd Displacement-MicroMap-Toolkit  && \
     git submodule update --init --recursive --jobs 8
 
-# Build the toolkit (sed comments out the line which errors out but is not used anywhere).
+# Build the toolkit
+# sed comments out the line which errors out but is not used
+# anywhere (advice from the Toolkit authors).
 RUN cd Displacement-MicroMap-Toolkit  && \
     sed -i '/pfn_vkGetLatencyTimingsNV(device, swapchain, pTimingCount, pLatencyMarkerInfo);/s/^/\/\/ /' ./external/nvpro_core/nvvk/extensions_vk.cpp && \
     mkdir build                       && \
     cmake -S . -B ./build/            && \
     make -C ./build/ -j
+
+RUN pip install --no-cache-dir \
+    usd-core==24.11     \
+    numpy               \
+    numba               \
+    py7zr
+
+# Set path to the modules.
+ENV PYTHONPATH="\
+    /workspace/Displacement-MicroMap-Toolkit/build/micromesh_python:\
+    ${PYTHONPATH}"
