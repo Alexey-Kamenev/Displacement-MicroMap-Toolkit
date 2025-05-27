@@ -15,7 +15,7 @@
        url = https://github.com/NVIDIAGameWorks/heightmap_rtx.git
 [submodule "external/Displacement-MicroMap-SDK"]
 	path = external/Displacement-MicroMap-SDK
-	url = ../Displacement-MicroMap-SDK.git
+	url = https://github.com/NVIDIAGameWorks/Displacement-MicroMap-SDK.git
 [submodule "external/Displacement-MicroMap-BaryFile"]
 	path = external/Displacement-MicroMap-BaryFile
-	url = ../Displacement-MicroMap-BaryFile.git
+	url = https://github.com/NVIDIAGameWorks/Displacement-MicroMap-BaryFile.git
