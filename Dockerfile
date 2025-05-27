@@ -3,7 +3,7 @@ FROM nvcr.io/nvidia/physicsnemo/physicsnemo:25.03
 ENV DEBIAN_FRONTEND=noninteractive
 
 # ┌─────────────────────────────────────────────────────────┐
-# │     Download and install Vulkan 1.3 SDK                 │
+# │ Download and install Vulkan 1.3 SDK.                    │
 # └─────────────────────────────────────────────────────────┘
 #
 ENV VULKAN_VERSION=1.3.296.0
@@ -26,7 +26,27 @@ ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${VULKAN_SDK}/lib
 # ENV VK_ICD_FILENAMES=${VULKAN_SDK}/etc/vulkan/icd.d
 # ENV VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
 
+# Copy the driver file to enable NVIDIA GPUs.
 COPY docker/nvidia_icd.json /usr/share/vulkan/icd.d/
+
+
+# ┌─────────────────────────────────────────────────────────┐
+# │ Install X11, GLFW.                                      │
+# └─────────────────────────────────────────────────────────┘
+#
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        libx11-dev          \
+        libxcb1-dev         \
+        libxcb-keysyms1-dev \
+        libxcursor-dev      \
+        libxi-dev           \
+        libxinerama-dev     \
+        libxrandr-dev       \
+        libxxf86vm-dev      \
+        libvulkan-dev       \
+        libglfw3-dev
 
 # ┌─────────────────────────────────────────────────────────┐
 # │ Add sudo and allow the non-root user to execute         │
@@ -47,9 +67,17 @@ RUN set -eux; \
 
 WORKDIR /workspace/
 
+# ┌─────────────────────────────────────────────────────────┐
+# │ Clone the Toolkit and build it.                         │
+# └─────────────────────────────────────────────────────────┘
+#
 RUN git clone https://github.com/Alexey-Kamenev/Displacement-MicroMap-Toolkit.git && \
-    cd Displacement-MicroMap-Toolkit    && \
-    git submodule update --init --recursive --jobs 8    && \
-    mkdir build                         && \
-    cmake -S . -B ./build               && \
+    cd Displacement-MicroMap-Toolkit  && \
+    git submodule update --init --recursive --jobs 8
+
+# Build the toolkit (sed comments out the line which errors out but is not used anywhere).
+RUN cd Displacement-MicroMap-Toolkit  && \
+    sed -i '/pfn_vkGetLatencyTimingsNV(device, swapchain, pTimingCount, pLatencyMarkerInfo);/s/^/\/\/ /' ./external/nvpro_core/nvvk/extensions_vk.cpp && \
+    mkdir build                       && \
+    cmake -S . -B ./build/            && \
     make -C ./build/ -j
