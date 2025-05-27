@@ -91,6 +91,4 @@ RUN pip install --no-cache-dir \
     py7zr
 
 # Set path to the modules.
-ENV PYTHONPATH="\
-    /workspace/Displacement-MicroMap-Toolkit/build/micromesh_python:\
-    ${PYTHONPATH}"
+ENV PYTHONPATH="/workspace/Displacement-MicroMap-Toolkit/build/micromesh_python:${PYTHONPATH}"
