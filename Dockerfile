@@ -88,7 +88,9 @@ RUN pip install --no-cache-dir \
     usd-core==24.11     \
     numpy               \
     numba               \
-    py7zr
+    py7zr               \
+    pyvista[jupyter]    \
+    trame
 
 # Set path to the modules.
 ENV PYTHONPATH="/workspace/Displacement-MicroMap-Toolkit/build/micromesh_python:${PYTHONPATH}"
