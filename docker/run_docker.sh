@@ -41,4 +41,6 @@ else
     fi
 fi
 
+xhost +local:${HOSTNAME}
 docker exec --user ${USER_NAME} -it ${CONTAINER_ID} bash
+xhost -local:${HOSTNAME}

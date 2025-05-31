@@ -5,7 +5,7 @@ This directory contains scripts and configuration files for building and running
 ## Prerequisites
 
 - Docker installed on your system
-- NVIDIA Container Toolkit installed for GPU support
+- [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) installed for GPU support
 - NVIDIA drivers installed on the host system
 - X11 forwarding support for GUI applications
 
