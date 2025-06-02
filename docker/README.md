@@ -9,7 +9,7 @@ This directory contains scripts and configuration files for building and running
 - NVIDIA drivers installed on the host system
 - X11 forwarding support for GUI applications
 
-## Configuration Files
+## Scripts and Configuration Files
 
 - `build_docker.sh`: Script to build the Docker image
 - `run_docker.sh`: Script to run the Docker container
